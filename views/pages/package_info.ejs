@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Package sending</title>
+</head>
+<body>
+    <form method="GET" , action="http://localhost:3000/sendPackage">Click Here to create your package
+    <label>Sender Name:</label>
+    <input id="inputBar" type="text" name = "sender_name" placeholder="e.g: Ron Kolsky"/>
+    </br>
+
+    <label>Receiver Name:</label>
+    <input id="inputBar" type="text" name = "recv_name" placeholder="e.g Yossi Zaguri"/>
+    </br>
+
+    <label>Date:</label>
+    <input id="inputBar" type="text" name = "shipping_date" placeholder="e.g 10/10/2021"/>
+    </br>  
+
+    <label>Area:</label>
+    <select name = "shipping_area" id = "areas">
+        <option value = "Dan Cluster">
+            Dan Cluster</option>
+        <option value = "Haifa">
+            Haifa</option>
+        <option value = "Samaria">
+            Samaria</option>
+         <option value = "South">
+            South</option>      
+    </select>      
+    </br>
+
+    <label>Package's Approx volume:</label>
+    <input id="inputBar" type="text" name = "items" placeholder="cushion blanket sheets"/>
+    </br> 
+     
+    <label>Package Weight:</label>
+    <input id="inputBar" type="text" name = "weight" placeholder="10 Kilos"/>
+    </br>  
+
+    <label>Ship:</label>
+    <input id="button"   type="submit" value = "Send"/>
+    </br>   
+    </form>
+
+
+</body>
+</html>
