@@ -5,13 +5,13 @@ const app = new express();
 
 
 const storage = new Storage({
-    keyFilename: "firstproject-4009a-firebase-adminsdk-mdlif-df125d1793.json"
+    keyFilename: "ariel2021-359ba-firebase-adminsdk-gjphe-608cbd9cd4.json"
     //goto project settings (wheel at left top)
     //service accounts->click generate new private key
     //you will have a key file downloaded - copy to this folder
  });
 
-let bucketName = "gs://stam-1091c.appspot.com"
+let bucketName = "gs://ariel2021-359ba.appspot.com"
 
 let filename = 'book.png';
 
