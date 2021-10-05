@@ -5,6 +5,7 @@ const http = require('http');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
+const generator = require("../shipping_sim/qrGenerator");
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
 app.use('/dashboard',dashboard)
@@ -41,7 +42,8 @@ app.get('/sendPackage', (req,res)=>{
     shipping_area:req.query.shipping_area,
     volume:req.query.volume,
     weight:req.query.weight,
-              }
+  }
+const result = generator.generate(data);
 res.send(data)
 })
 
