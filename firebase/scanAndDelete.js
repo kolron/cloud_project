@@ -34,15 +34,14 @@ async function listAllFiles() {
     console.log('Checking for files')
     const [files] = await myBucket.getFiles();
     if (files.length != 0) {
-      console.log("Files:");
-      files.forEach((file) => {
-        const res = generateSignedUrl(file.name).catch(console.error);
-        file.delete(function (err, apiResponse) {});
-      });
-    }
-    else{
-       return;
-    }
+      for (const file of files) {
+       console.log(`Generating url for ${file.name}`)
+       await generateSignedUrl(file.name).catch(console.error)
+       console.log('url created')
+       console.log('Deleting file...')
+      // await new Promise(resolve => setTimeout(file.delete((err, apiResponse) => {console.log('deleted file')}) ,1000));
+       file.delete(function (err, apiResponse) {console.log('deleted file')});
+ }
 }
 
 async function createURLandDelete(timeout){
