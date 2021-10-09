@@ -1,4 +1,7 @@
+
 const { Storage } = require("@google-cloud/storage");
+const {download} = require('./downloadFirebase')
+const {scan} = require('./qrcoderReader')
 const storage = new Storage({
   keyFilename:
     "../firebase/ariel2021-359ba-firebase-adminsdk-gjphe-608cbd9cd4.json",
@@ -25,24 +28,21 @@ async function generateSignedUrl(filename) {
   console.log(
     "----------------------------------------------------------------------------------------------------");
   console.log(`Creating a signed url for ${filename}`);
-  console.log(`created {url}.`);
-  console.log(
-    "----------------------------------------------------------------------------------------------------"
-  );
+  return url
 }
 async function listAllFiles() {
     console.log('Checking for files')
     const [files] = await myBucket.getFiles();
     if (files.length != 0) {
-      console.log("Files:");
-      files.forEach((file) => {
-        const res = generateSignedUrl(file.name).catch(console.error);
-        file.delete(function (err, apiResponse) {});
-      });
-    }
-    else{
-       return;
-    }
+      for (const file of files) { 
+      //  console.log(`Generating url for ${file.name}`),
+       url = await generateSignedUrl(file.name).catch(console.error)
+       console.log('url created')
+      //await download(url, file.name,async () => { await Promise(resolve => { setTimeout(resolve, 5000); })})
+      //await scan(file.name)
+      // file.delete(function (err, apiResponse) {console.log('deleted file')});
+ }
+}
 }
 
 async function createURLandDelete(timeout){
@@ -51,6 +51,5 @@ async function createURLandDelete(timeout){
         listAllFiles().catch(console.error);
     }
 }
+createURLandDelete(2000)
 module.exports = {createURLandDelete};
-
-

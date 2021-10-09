@@ -3,6 +3,7 @@
 // Require the package
 const QRCode = require('qrcode')
 const FB = require('../firebase/upload2FB.js')
+const fs = require('fs')
 
 const generate = async(data,name) => {
     let filename = `../firebase/${name}.png`
@@ -11,8 +12,14 @@ const generate = async(data,name) => {
         if(err) return console.log("error occurred")
     })
     console.log("Uploading img file to Firebase...")
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    FB.uploadFile(filename)
+    await FB.uploadFile(filename)
+    fs.unlink(filename,(err)=>{
+        if (err) {
+            console.error(err)
+        }
+        console.log('deleted file')
+    })
+
 }
 
 module.exports = { generate };
