@@ -1,6 +1,4 @@
 var QrCode = require('qrcode-reader');
-var qr = new QrCode();
-var fs = require('fs');
 var Jimp = require("jimp");
 
 async function scan(buffer){
