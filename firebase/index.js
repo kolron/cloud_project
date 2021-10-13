@@ -1,53 +1,46 @@
-const { Storage } = require("@google-cloud/storage");
-const { download } = require("./downloadFirebase");
-const { scan } = require("./qrcoderReader");
-const storage = new Storage({
-  keyFilename:
-    "../firebase/ariel2021-359ba-firebase-adminsdk-gjphe-608cbd9cd4.json",
-});
-let bucketName = "gs://ariel2021-359ba.appspot.com";
-let myBucket = storage.bucket(bucketName);
+const express = require('express')
+const app = express()
+var server = require('http').Server(app);
+var redis = require('redis');
+var redisClient = redis.createClient(6379)
+var {createURLandDelete} = require('./createDelete')
 
-/*
-This files export function scanns our bucket in firebase
-and creates a url that contains the image we want to scan
-this url is temporary and lasts for 1 minute 
-url is genereated in the console, can be passed as an argument i suppose
-afterwards it deletes the file from which the url was generated, clearing the firebase.
-OPTION: instead of having the index.js call this function, and pass the url to the QRscanner,
-we can pass this to the scanner here(might be simpler to do so).
-*/
-async function generateSignedUrl(filename) {
-  const options = {
-    version: "v4",
-    action: "read",
-    expires: Date.now() + 1000 * 60,
-  };
-  const [url] = await myBucket.file(filename).getSignedUrl(options);
-  console.log("-------------------------------------------");
-  console.log(`Creating a signed url for ${filename}`);
-  console.log("url created");
-  return url;
-}
-async function listAllFiles() {
-  console.log("Checking for files");
-  const [files] = await myBucket.getFiles();
-  if (files.length != 0) {
-    for (const file of files) {
-      console.log(`Generating url for ${file.name}`);
-      url = await generateSignedUrl(file.name).catch(console.error);
-      //await download(url);
-      //await scan(file.name);
-      await file.delete(function (err, apiResponse) {console.log('deleted file')});
+var parsed_package
+async function parseData(){
+    const results = await createURLandDelete()
+    for (const obj of results){
+        var val = obj
+        val = (val.toString())
+        var point_index = val.search('points')
+        var res = val.substring(11,point_index - 4)
+        try{ 
+        parsed_package = JSON.parse(res)
+        } catch(e)
+        {
+            console.log(res)
+            console.error(e)
+        }
+        console.log(parsed_package.serial_number)
+        console.log('=============================================')
+        redisClient.publish("arrival",parsed_package.serial_number,() =>{console.log('published')})
     }
-  }
 }
 
-async function createURLandDelete(timeout) {
-  while (true) {
-    await new Promise((resolve) => setTimeout(resolve, timeout));
-    listAllFiles().catch(console.error);
-  }
+
+redisClient.on('connect', function() {
+    console.log('Reciver connected to Redis');
+});
+
+
+server.listen(6061, function() {
+    console.log('reciver is running on port 6061');
+});
+
+const run = async () =>{
+while(true){
+console.log('running')
+await new Promise(resolve => setTimeout(resolve,10000))
+await parseData()}
 }
-createURLandDelete(2000);
-module.exports = { createURLandDelete };
+
+module.exports = { run }

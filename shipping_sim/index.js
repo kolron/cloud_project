@@ -73,7 +73,7 @@ const generator = require("./qrGenerator");
         cities = ['Tel-Aviv','Kfar Saba','Herzliya','Givatayim','Ramat Gan', 'Kfar Yona','Netanya', 'Jerusalem']
      }
     else{ 
-        cities = ["Be'er Sheva", "Eilat", "Ashkelon", "Ashdod", "Qiryat Malachi"]       
+        cities = ["Be\'er Sheva", "Eilat", "Ashkelon", "Ashdod", "Qiryat Malachi"]       
     }
     var shuffled = shuffle(cities)
     var selected_city = shuffled.slice(0,Math.floor(Math.random()+1))
@@ -125,19 +125,18 @@ const generator = require("./qrGenerator");
     const result = generator.generate(package,package.serial_number);
     console.log(package)
 
-    //save meta-data to redis
+    //save meta-data to redis   
     redisClient.incrby('TOTAL',1, (err,reply)=>{console.log(reply)})
     redisClient.incrby('ON_ROUTE',1,(err,reply)=>{console.log(reply)})
     redisClient.hincrby(package.district,"TOTAL_PACKAGES_DISTRICT", 1,(err,reply)=>{console.log(reply)})
     
     //save package to redis
-    redisClient.hmset(package.serial_number,'serial_num',package.serial_number,'items',`${package.items}`,
+    redisClient.hmset(package.serial_number,'serial_num',package.serial_number,'items',`${JSON.stringify(package.items)}`,
     'size',package.size,'tax_status',package.tax_status,'address',package.address,'district',package.district,
     'status',package.status);
 
-    redisClient.publish('message',package,()=>{console.log("Published")});
-}
-
+    redisClient.publish('message', JSON.stringify(package),() =>{console.log('publish')});
+ }
 redisClient.on('connect', function () {
     console.log('Simulator connected to Redis');
 });
@@ -145,5 +144,8 @@ server.listen(6062, function () {
     console.log('Simulator is running on port 6062');
 });
 
-setInterval(SimShipment,3500,products)
+function run(){
+setInterval(SimShipment,3500,products)}
+
+module.exports = {run}
 
