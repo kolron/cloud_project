@@ -2,19 +2,6 @@
 const express =require('express')
 const router = express.Router()
 
-// router.get('/', (req, res) => {
-//     var data = {
-//       cards:[
-//        {title: "Dan Cluster", value: 1500, unit:" Packages",footerIcon:"Average size", footerText:"Medium",footerIcon:"toll",mainIcon:"tour"},
-//        {title: "Haifa", value: 320, unit:" Packages",footerIcon:"Average size", footerText:"Medium",footerIcon:"flight_land",mainIcon:"turned_in"},
-//        {title: "Samaria", value: 500, unit:" Packages",footerIcon:"Average size", footerText:"Medium",footerIcon:"turned_in_not",mainIcon:"anchor"},
-//        {title: "South", value: 100, unit:" Packages",footerIcon:"Average size", footerText:"Medium",footerIcon:'hourglass_full',mainIcon:"flaky"}
-//       ]
-//     }
-//     res.render("pages/dashboard",data)
-//   })
-
-// module.exports = router
 router.get('/', (req, res) => {
   var data = {
     cards: [
@@ -28,25 +15,8 @@ router.get('/', (req, res) => {
       
     ]
   }
-  res.render("pages/dashboard", data)
+  res.render("pages/", data)
 })
 
 
-
-// router.get('/sendPackage',(req,res)=>{
-//   res.render('pages/sendPackage')
-// })
-
-// router.get('/sendPackage', (req,res)=>{
-//   var data = {
-//     sender_name:req.query.sender_name,
-//     recv_name:req.query.recv_name,
-//     shipping_date:req.query.shipping_date,
-//     shipping_area:req.query.shipping_area,
-//     volume:req.query.volume,
-//     weight:req.query.weight,
-//   }
-// const result = generator.generate(data);
-// res.send(data)
-// })
 module.exports = router
