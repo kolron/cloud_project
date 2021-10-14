@@ -2,18 +2,26 @@
   "name": "firebase",
   "version": "1.0.0",
   "description": "",
-  "main": "qrcoderReader.js",
+  "main": "index.js",
   "scripts": {
+    "start": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@google-cloud/storage": "^5.14.5",
+    "es": "^0.8.0",
     "express": "^4.17.1",
     "fs": "0.0.1-security",
+    "graphicsmagick": "0.0.1",
     "jimp": "^0.16.1",
+    "node-fetch": "^3.0.0",
+    "nodemon": "^2.0.13",
+    "python-shell": "^3.0.1",
+    "qr-scanner-cli": "^2.1.4",
     "qrcode-reader": "^1.0.4",
+    "redis": "^3.1.2",
     "request": "^2.88.2",
     "uuid": "^8.3.2"
   }

@@ -1190,6 +1190,7 @@ html[dir="rtl"] .off-canvas-sidebar nav .navbar-collapse {
 
 html[dir="rtl"] .card .card-body, html[dir="rtl"] .card .card-footer {
   direction: rtl;
+
 }
 
 @media (max-width: 991px) {
