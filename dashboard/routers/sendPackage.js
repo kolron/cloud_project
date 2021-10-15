@@ -2,7 +2,7 @@
 const express =require('express')
 //const sim  = require("../../shipping_sim/index")
 const router = express.Router();
-const {generate} = require("../../shipping_sim/qrGenerator");
+
 
 router.get('/',(req,res)=>{
   res.render('pages/sendPackage')
@@ -25,7 +25,6 @@ router.get('/submitPackage', (req,res)=>{
     serial_num: sim.generateSerial(),
     status:"On Route"
   }
-const result = generate(data);
-res.send(data)
+
 })
 module.exports = router
