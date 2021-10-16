@@ -36,29 +36,16 @@ The above copyright notice and this permission notice shall be included in all c
 </script>
   <!--Ends here-->
 </head>
-<body>
-  <style>
-    body {
-      background-image: url('background.jpg');
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-      background-size: cover;
-    }
-    </style>
+<body>  
   <%- include ('../partials/sidebar'); %>
     <div class="main-panel">
       <%- include("../partials/navbar") %>
-      <div class="content">
-        <div class="container-fluid">
-          <div class="row">
-            <% cards.forEach(function(card){ %>
-            <%- include ('../partials/card',card))}; %>
-            </div>          
-        </div>
-      </div>
-      <%- include("../partials/footer") %>
+  
+    
+      <p>Home Page</p>
     </div>
   </div>
+  <%- include("../partials/footer") %>
   <%- include("../partials/dashcode") %>
 </body>
 

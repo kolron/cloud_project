@@ -22,7 +22,10 @@ sub.on("message", (channel, data) => {
           db.close();
         });
       });
+      redisClient.hincrby(object.district,"ARRIVED",1)
     });
+    redisClient.decr('ON_ROUTE')
+    redisClient.incr('ARRIVED')
   }
 });
 

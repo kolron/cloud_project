@@ -1,6 +1,6 @@
 
 const express =require('express')
-//const sim  = require("../../shipping_sim/index")
+
 const router = express.Router();
 
 

@@ -153,13 +153,13 @@ const generator = require("./qrGenerator");
     //save meta-data to redis   
     redisClient.incrby('TOTAL',1, (err,reply)=>{console.log(reply)})
     redisClient.incrby('ON_ROUTE',1,(err,reply)=>{console.log(reply)})
-    redisClient.hincrby(package.district,"TOTAL_PACKAGES_DISTRICT", 1,(err,reply)=>{console.log(reply)})
+    redisClient.hincrby(package.district,"TOTAL", 1,(err,reply)=>{console.log(reply)})
+    redisClient.hincrby(package.district,"ON_ROUTE",1,(err,reply)=>{console.log(reply)})
     
     //save package to redis
     redisClient.hmset(package.serial_number,'serial_num',package.serial_number,'items',`${JSON.stringify(package.items)}`,
     'size',package.size,'tax_status',package.tax_status,'address',package.address,'district',package.district,
     'status',package.status);
-
     redisClient.publish('message', JSON.stringify(package),() =>{console.log('publish')});
  }
 redisClient.on('connect', function () {
