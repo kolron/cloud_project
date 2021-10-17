@@ -42,5 +42,5 @@ console.log('running')
 await new Promise(resolve => setTimeout(resolve,10000))
 await parseData()}
 }
-
+run()
 module.exports = { run }

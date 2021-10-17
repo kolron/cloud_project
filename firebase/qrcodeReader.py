@@ -1,6 +1,6 @@
 
 import os
-os.chdir('../firebase')
+#os.chdir('../firebase')
 import sys
 import numpy as np
 import pyboof as pb
@@ -29,7 +29,7 @@ class QR_Extractor:
 
 
 qr_scanner = QR_Extractor()
-output = qr_scanner.extract('../firebase/images/'+sys.argv[1])   
-#print('file: '+'images/'+sys.argv[1])
+output = qr_scanner.extract('images/'+sys.argv[1])   
+print('file: '+'images/'+sys.argv[1])
 print(output)
 sys.stdout.flush()

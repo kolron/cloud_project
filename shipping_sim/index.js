@@ -32,8 +32,9 @@ const generator = require("./qrGenerator");
  {name:"mouse",price :20},{name:"keyboard",price:20},{name:"batteries",price:1}];
 
     
- function generateItems(items) {
-    let shuffled = shuffle(items)
+ function generateItems(list) {
+    if(!list){list = products} 
+    let shuffled = shuffle(list)
     var selected = shuffled.slice(0,Math.floor(Math.random()*3+1))
     var size;
     switch(selected.length){
@@ -58,7 +59,7 @@ const generator = require("./qrGenerator");
 
 
   function generateAdress() {
-    const district = ['north','haifa','center','south']
+    const district = ['north','haifa','central','south','tel aviv','jerusalem','samaria',]
     var shuffled = shuffle(district)
     console.log('shuffeled dist')
     var selected_dist = shuffled.slice(0,Math.floor(Math.random()+1))
@@ -69,11 +70,20 @@ const generator = require("./qrGenerator");
     else if(selected_dist == 'haifa'){
         cities = ['Haifa', 'Hadera', 'Givat Ada', 'Qiryat Motzkin','Or Akiva','Aviel']
     }
-    else if(selected_dist == 'center'){
-        cities = ['Tel-Aviv','Kfar Saba','Herzliya','Givatayim','Ramat Gan', 'Kfar Yona','Netanya', 'Jerusalem']
+    else if(selected_dist == 'central'){
+        cities = ['Kfar Saba','Herzliya','Givatayim','Ramat Gan', 'Kfar Yona','Netanya']
+     }
+     else if(selected_dist == 'tel aviv'){
+        cities = ['Tel-Aviv']
+     }
+     else if(selected_dist == 'jerusalem'){
+        cities = ['Jerusalem']
+     }
+     else if(selected_dist == 'samaria'){
+        cities = ['Ariel']
      }
     else{ 
-        cities = ["Be\'er Sheva", "Eilat", "Ashkelon", "Ashdod", "Qiryat Malachi"]       
+        cities = ["Beer Sheva", "Eilat", "Ashkelon", "Ashdod", "Qiryat Malachi"]       
     }
     var shuffled = shuffle(cities)
     var selected_city = shuffled.slice(0,Math.floor(Math.random()+1))
@@ -100,6 +110,28 @@ const generator = require("./qrGenerator");
     return {price:price,tax_status:tax_status}
  }
 
+ function generateName(name) {
+   if(name){
+       return name;
+   }  
+   else{
+       name = 'john doe'
+   }
+   return name;
+ } 
+ function getFullDate() {
+    var d = new Date(),
+        month = '' + (d.getMonth()),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+
+    return [day, month, year].join('-');
+}
  function createRandomShipment(products) {
     var items = generateItems(products)
     var price = genereatePrice(items.items)
@@ -107,8 +139,10 @@ const generator = require("./qrGenerator");
     
     var package = {
         serial_number : generateSerial(),
+        recv_name : generateName(),
         items : items.items,
         size : items.size,
+        shipping_date : getFullDate(),
         price : price.price,
         tax_status : price.tax_status,
         address : address.address, 
@@ -128,13 +162,13 @@ const generator = require("./qrGenerator");
     //save meta-data to redis   
     redisClient.incrby('TOTAL',1, (err,reply)=>{console.log(reply)})
     redisClient.incrby('ON_ROUTE',1,(err,reply)=>{console.log(reply)})
-    redisClient.hincrby(package.district,"TOTAL_PACKAGES_DISTRICT", 1,(err,reply)=>{console.log(reply)})
+    redisClient.hincrby(package.district,"TOTAL", 1,(err,reply)=>{console.log(reply)})
+    redisClient.hincrby(package.district,"ON_ROUTE",1,(err,reply)=>{console.log(reply)})
     
     //save package to redis
     redisClient.hmset(package.serial_number,'serial_num',package.serial_number,'items',`${JSON.stringify(package.items)}`,
     'size',package.size,'tax_status',package.tax_status,'address',package.address,'district',package.district,
     'status',package.status);
-
     redisClient.publish('message', JSON.stringify(package),() =>{console.log('publish')});
  }
 redisClient.on('connect', function () {
@@ -144,8 +178,8 @@ server.listen(6062, function () {
     console.log('Simulator is running on port 6062');
 });
 
-function run(){
-setInterval(SimShipment,3500,products)}
 
-module.exports = {run}
+setInterval(SimShipment,3500,products)
+
+
 

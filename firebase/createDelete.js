@@ -28,9 +28,9 @@ function pythonPromise(name) {
       //Path to your script
       args: name,
     };
-    await PythonShell.run("../firebase/qrcodeReader.py", options, function (err, results) {
+    await PythonShell.run("qrcodeReader.py", options, function (err, results) {
       if (err) throw err;
-
+      console.log(results[3])
       resolve(results[3]);
     });
   });
@@ -45,7 +45,9 @@ async function listAllFiles() {
       if (count < 5) {
         var url = await generateSignedUrl(file.name).catch(console.error);
         await download(url, file.name).catch(console.error);
+        await new Promise(resolve => setTimeout(resolve,1000))
         var res = await pythonPromise(file.name);
+        console.log()
         results.push(res);
         file.delete().then(function (data) {
           const apiResponse = data[0];

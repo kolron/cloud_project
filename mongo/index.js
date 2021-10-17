@@ -9,7 +9,6 @@ const { MongoClient } = require("mongodb");
 
 const url =
   "mongodb+srv://ron:ron@cluster0.x3cfx.mongodb.net/test?retryWrites=true&w=majority";
-function run(){
 sub.on("message", (channel, data) => {
   if (channel == "arrival") {
     redisClient.hgetall(data, (err, object) => {
@@ -23,7 +22,10 @@ sub.on("message", (channel, data) => {
           db.close();
         });
       });
+      redisClient.hincrby(object.district,"ARRIVED",1)
     });
+    redisClient.decr('ON_ROUTE')
+    redisClient.incr('ARRIVED')
   }
 });
 
@@ -32,5 +34,3 @@ redisClient.on("connect", (err, reply) => {
 });
 
 server.listen(6064, (err, reply) => console.log("listening on port 6064"));
-}
-module.exports = {run}
