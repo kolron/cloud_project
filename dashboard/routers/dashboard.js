@@ -8,9 +8,6 @@ redisClient.get = util.promisify(redisClient.get)
 redisClient.hget = util.promisify(redisClient.hget)
 var datafile = require('./data')
 
-
-
-  
 router.get('/', async (req, res) => {
   var data = await datafile.getData()
   res.render("pages/dashboard", data)

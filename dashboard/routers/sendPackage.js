@@ -9,10 +9,8 @@ router.get('/',(req,res)=>{
 })
 
 router.get('/submitPackage', (req,res)=>{
-  
-  var items = sim.generateItems()
-  var price = genereatePrice(items.items)
-  
+
+
   var data = {
 
     items: sim.generateItems(),

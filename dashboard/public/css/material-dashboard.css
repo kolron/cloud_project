@@ -12,8 +12,16 @@
  * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
  */
-/*     brand Colors              */
-.card {
+/*     brand Colors    
+          */
+.text_display{
+  
+  color: #FFF;
+  font-weight: bold;
+}
+
+
+          .card {
   font-size: .875rem;
 }
 
