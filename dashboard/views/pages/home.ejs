@@ -37,16 +37,81 @@ The above copyright notice and this permission notice shall be included in all c
   <!--Ends here-->
 </head>
 <body>  
+  <style>
+    body {
+      background-image: url('background.png');
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: cover;
+    }
+    h1 { 
+    text-align: left; 
+    background-position: left;
+    background-size: 0px;
+    background-color: rgb(16, 88, 100); 
+    }
+    </style>
   <%- include ('../partials/sidebar'); %>
     <div class="main-panel">
       <%- include("../partials/navbar") %>
-  
-    
-      <p>Home Page</p>
+      
+
+      <div class="header">
+        <div class="menu-block">
+          <div class="wrapper-menu clearfix">
+            <div class="custom_menu" >
+              <div class="col-md-4">
+              
+                
+                <h1 style="color:white">KOLSKY & FRIDMAN's 
+                  <br> Package Company
+                </h1>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          
+          <div class="col-md-4">
+            <div class="magicslider yug-banner-slider vertical tpc-static-banner-vertical">
+              <div class="item">
+                <a href="../findPackage">
+                  <img src="recive package.png" alt="Recive Package" width="482" height="267">
+                </a>
+              </div>
+              <div class="item">
+                <a >
+                  <img src="design.png" alt="Design Package" width="482" height="267">
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          
+          <div class="col-md-8">
+            <div class="magicslider yug-banner-slider tpc-static-banner">
+              <div class="item">
+                <a href="../sendPackage">
+                  <img src="send package.png" alt="Send Package" width="1097" height="534">
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="container">
+        <div class="page title">
+          <h2>
+                   -------* YOUR LIFE WILL BE A LOT EASER WITH OUR WEBSITE *-------     
+          </h2>
+        </div>
+      </div>
+      <%- include("../partials/footer") %>
+      <%- include("../partials/dashcode") %>
     </div>
-  </div>
-  <%- include("../partials/footer") %>
-  <%- include("../partials/dashcode") %>
 </body>
 
 </html>
