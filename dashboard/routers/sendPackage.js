@@ -13,6 +13,8 @@ function sendPackage(package){
     package.serial_number,
     "serial_number",
     package.serial_number,
+    "receiver name",
+    package.recv_name,
     "items",
     `${JSON.stringify(package.items)}`,
     "size",

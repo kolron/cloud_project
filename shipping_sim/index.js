@@ -35,7 +35,8 @@ function SimShipment(products) {
     package.serial_number,
     "serial_number",
     package.serial_number,
-    
+    "reciever name",
+    package.recv_name,
     "size",
     package.size,
     "tax_status",

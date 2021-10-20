@@ -29,10 +29,10 @@ The above copyright notice and this permission notice shall be included in all c
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="demo/demo.css" rel="stylesheet" />
   
-  <!-- Ariel Code here-->
+  <!-- Ariel Code here--> 
   <script src="socket.io/socket.io.js"></script>
 <script>
-  var socket = io();
+  var socket = io('http://localhost:3000');
 </script>
   <!--Ends here-->
 </head>
@@ -50,6 +50,12 @@ The above copyright notice and this permission notice shall be included in all c
       <%- include("../partials/navbar") %>
       <div class="content">
         <div class="container-fluid">
+          <script>
+            socket.on('test',(data)=>{
+            window.alert(data)
+            })
+
+          </script>
           <div class="row">
             <% cards.forEach(function(card){ %>
             <%- include ('../partials/card',card))}; %>
