@@ -21,7 +21,13 @@ router.get("/locate", async (req, res) => {
   if (package)
   {
     status = 'ok'
-    var data = { status: status, package_info: JSON.stringify(package,null,2)};
+    var package_info = JSON.stringify(package,null,2)
+    var package_top_end = package_info.indexOf('items')
+    var package_top = package_info.substring(1,package_top_end - 2)
+    var package_items_start = package_info.indexOf('[')
+    var package_items_end = package_info.indexOf(']')
+    var package_items = package_info.substring(package_items_start + 1 ,package_items_end)
+    var data = { status: status, package_top: package_top, package_items: package_items};
   }
   else{
      status = 'bad'
