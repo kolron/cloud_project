@@ -13,13 +13,13 @@ function createRandomShipment(products) {
   var package = {
     serial_number: functions.generateSerial(),
     recv_name: functions.generateName(),
-    items: items.items,
     size: items.size,
     shipping_date: functions.getFullDate(),
     price: price.price,
     tax_status: price.tax_status,
     address: address.address,
     district: address.district,
+    items: items.items,
     status: "On Route",
   };
   return package;
@@ -35,8 +35,7 @@ function SimShipment(products) {
     package.serial_number,
     "serial_number",
     package.serial_number,
-    "items",
-    `${JSON.stringify(package.items)}`,
+    
     "size",
     package.size,
     "tax_status",
@@ -46,7 +45,9 @@ function SimShipment(products) {
     "district",
     package.district,
     "status",
-    package.status
+    package.status,
+    "items",
+    `${JSON.stringify(package.items)}`
   );
   redisClient.publish("shipped", package.serial_number.toString(), () => {
     console.log("publish");
@@ -85,5 +86,5 @@ setIntervalX(
     SimShipment();
   },
   5000,
-  100
+  4
 )
