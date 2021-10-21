@@ -11,7 +11,6 @@ async function checkQR(filename,data){
     if(size< 150)
     {
         console.log('error in creating file')
-      //  await fs.unlink(filename,(err)=>{if(err){console.error(err)}})
         QRCode.toFile(filename,data)
         checkQR(filename,data)
         await new Promise(resolve => setTimeout(resolve,1000))

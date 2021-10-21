@@ -3,11 +3,11 @@ const router = express.Router();
 const redisClient = require("redis").createClient();
 const util = require("util");
 redisClient.get = util.promisify(redisClient.get);
-redisClient.hgetall = util.promisify(redisClient.hgetall)
-router.use(express.static('public'))
+redisClient.hgetall = util.promisify(redisClient.hgetall);
+router.use(express.static("public"));
 redisClient.on("error", (err) => {
   console.catch(err);
-}); 
+});
 const { MongoClient } = require("mongodb");
 const url =
   "mongodb+srv://ron:ron@cluster0.x3cfx.mongodb.net/test?retryWrites=true&w=majority";
@@ -15,6 +15,7 @@ const url =
 router.get("/", (req, res) => {
   res.render("pages/findPackage");
 });
+
 
 
 
@@ -37,9 +38,11 @@ async function findOne(name) {
 
     let query = { serial_number: name };
 
+
     let res = await collection.findOne(query);
 
-    return(res);
+
+    return res;
   } catch (err) {
     console.log(err);
   } finally {
@@ -47,13 +50,11 @@ async function findOne(name) {
   }
 }
 
-
-
-
 router.get("/locate", async (req, res) => {
-  var ser_num = (req.query.recv_name).toString();
-  var package = await findOne(ser_num)
+  var ser_num = req.query.recv_name.toString();
+  var package = await findOne(ser_num);
   // var package = await redisClient.hgetall(ser_num)
+
   // console.log(package)
   var status;
   if (package)
@@ -93,9 +94,10 @@ router.get("/locate", async (req, res) => {
   else{
      status = 'bad'
      var data = { status: status, package_top: "", package_items: ""};
+
   }
 
-res.render("pages/locatePackage", data);
-})
+  res.render("pages/locatePackage", data);
+});
 
 module.exports = router;
