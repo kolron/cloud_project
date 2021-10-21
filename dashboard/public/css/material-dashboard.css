@@ -17367,7 +17367,9 @@ html[dir="rtl"] .form-check .form-check-sign .check:before {
   background-color: transparent;
   color: #55acee;
 }
-
+ .findpackage-card{
+  background-color: rgb(91,159,185,0.6);
+} 
 .card {
   border: 0;
   margin-bottom: 30px;

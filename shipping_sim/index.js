@@ -19,8 +19,8 @@ function createRandomShipment(products) {
     tax_status: price.tax_status,
     address: address.address,
     district: address.district,
-    items: items.items,
     status: "On Route",
+    items: items.items
   };
   return package;
 }
@@ -83,6 +83,6 @@ setIntervalX(
   function () {
     SimShipment();
   },
-  1500,
-  100
+  5000,
+  1
 )
