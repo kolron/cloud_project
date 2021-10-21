@@ -45,28 +45,47 @@
         background-repeat: no-repeat;
         background-attachment: fixed;
         background-size: cover;
+        
       }
     </style>
     <div class="wrapper">
       <%- include ('../partials/sidebar'); %>
       <div class="main-panel">
         <%- include("../partials/navbar") %>
-        <div class="content">
-          <div class="container-fluid">
             <pre id="json">
-            <div class="text_display">
-                  <% if(status == 'ok'){ %>
-                      <h2>Your Package:</h2>
-                      <h3><%= package_top %></h3>
-                      <h3><%= package_items %></h3>
-                    <% } else { %>
-                          <h2>Sorry, we couldn't find a package with that number.</h2>
-                          <p> reply Status : <%= status %> </p>
-                            <% } %> 
+                    <% if(status == 'ok'){ %>
+                        <div class="col-lg-6 col-md-12">
+                          <div class="card ">
+                            <div class="card-body table-responsive findpackage-card">
+                              <h1 class="card-title">Your Package:</h1>
+                              <h3><%= package_top %></h3>
+                              <table class="table table-hover">          
+                                
+                                <thead class="text-warning">
+                                  <th>Name</th>
+                                  <th>price</th>
+                                </thead>
+                                <tbody>
+                                  <% for(var i=0; i <  count ; i++) {%>
+
+                                    <tr>
+                                      <td><%= names[i] %></td>
+                                      <td><%= prices[i] %></td>
+                                    </tr>
+                                  <% } %>     
+                                </tbody>
+                              </table>
+                            </div>
                           </div>
-                        </pre>
-          </div>
-        </div>
+                        </div>
+                      <% } else { %>
+                            <h2>Sorry, we couldn't find a package with that number.</h2>
+                            <p> reply Status : <%= status %> </p>
+                      <% } %> 
+             
+            </pre>
+          
+        
         <%- include("../partials/dashcode") %>
       </div>
     </div>

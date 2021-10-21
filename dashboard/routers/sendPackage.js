@@ -13,8 +13,7 @@ function sendPackage(package){
     package.serial_number,
     "serial_number",
     package.serial_number,
-    "items",
-    `${JSON.stringify(package.items)}`,
+    
     "size",
     package.size,
     "tax_status",
@@ -22,7 +21,9 @@ function sendPackage(package){
     "district",
     package.district,
     "status",
-    package.status
+    package.status,
+    "items",
+    `${JSON.stringify(package.items)}`
   );
   redisClient.publish("shipped", package.serial_number.toString(), () => {
     console.log("publish");
@@ -40,13 +41,14 @@ router.get('/submitPackage', (req,res)=>{
   var package = {
     serial_number: functions.generateSerial(),
     recv_name:req.query.recv_name,
-    items: items.items,
+    
     size : items.size,
     shipping_date:functions.getFullDate(),
     price : price.price,
     tax_status : price.tax_status,
     district:req.query.shipping_area,
-    status:"On Route"
+    status:"On Route",
+    items: items.items
   }
   sendPackage(package)
   res.send("Sent Package:")
