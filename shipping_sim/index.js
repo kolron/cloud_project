@@ -37,6 +37,8 @@ function SimShipment(products) {
     package.serial_number,
     "reciever name",
     package.recv_name,
+    "price",
+    package.price,
     "size",
     package.size,
     "tax_status",
@@ -83,6 +85,6 @@ setIntervalX(
   function () {
     SimShipment();
   },
-  4000,
-  20
+  1000,
+  100
 )

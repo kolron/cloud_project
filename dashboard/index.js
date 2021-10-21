@@ -9,7 +9,7 @@ const findPackage = require('./routers/findPackage')
 const map = require('./routers/map');
 const redis = require('redis')
 const sub = redis.createClient()
-const {getData} = require('./routers/data')
+const {getCardData} = require('./routers/data')
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
 app.use('/dashboard',dashboard)
@@ -29,7 +29,7 @@ io.on('connection',(socket)=>{
 sub.on('message',async(channel,data)=>{
   if(channel =='update'){
   console.log('io recieved update')
-  var result = await getData()
+  var result = await getCardData()
   console.log(data)
   io.emit('update',result)
   }

@@ -26,6 +26,10 @@ const url =
           db.close();
         });
       });
+      redisClient.hincrby(object.district, "TOTAL_PRICE", object.price, (err, reply) => {
+        console.log(object.price)
+        console.log(reply);
+      });
       redisClient.hincrby(object.district, "TOTAL", 1, (err, reply) => {
         console.log(reply);
       });
