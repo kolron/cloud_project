@@ -9,13 +9,14 @@ const findPackage = require('./routers/findPackage')
 const map = require('./routers/map');
 const redis = require('redis')
 const sub = redis.createClient()
+const {getData} = require('./routers/data')
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
 app.use('/dashboard',dashboard)
 app.use('/sendPackage',sendPackage)
 app.use('/findPackage',findPackage)
 app.use('/map',map)
-sub.subscribe('message')
+sub.subscribe('update')
 
 server.listen(port,()=>{
   console.log(`Server running on port ${port}`)
@@ -23,14 +24,16 @@ server.listen(port,()=>{
 
 io.on('connection',(socket)=>{
   console.log('Socket connection active')
-  console.log(`user id: ${socket.id}`)
-  sub.on('message',(channel,data)  => {
-    io.emit('test',data)
-  })
 })
 
-app.set('socketio',io)
-
+sub.on('message',async(channel,data)=>{
+  if(channel =='update'){
+  console.log('io recieved update')
+  var result = await getData()
+  console.log(data)
+  io.emit('update',result)
+  }
+})
 app.get('/', (req, res) => {
   res.render("pages/home")
 })

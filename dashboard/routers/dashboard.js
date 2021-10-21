@@ -2,9 +2,13 @@
 const express =require('express')
 const router = express.Router()
 const redis = require('redis')
+const { io } = require('socket.io')
 const util = require('util')
 const redisClient = redis.createClient()
 const sub = redis.createClient()
+
+
+  
 
 
 

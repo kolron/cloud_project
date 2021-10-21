@@ -50,12 +50,6 @@ The above copyright notice and this permission notice shall be included in all c
       <%- include("../partials/navbar") %>
       <div class="content">
         <div class="container-fluid">
-          <script>
-            socket.on('test',(data)=>{
-            window.alert(data)
-            })
-
-          </script>
           <div class="row">
             <% cards.forEach(function(card){ %>
             <%- include ('../partials/card',card))}; %>

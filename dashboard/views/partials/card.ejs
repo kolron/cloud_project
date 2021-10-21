@@ -21,7 +21,11 @@
       <div class="card-header card-header-warning card-header-icon" >
         
         <p class="card-category"><%= title %></p>
-        <h3 class="card-title"><%= value %><small><%= unit %></small></h3>
+        <h3 class="card-title"> 
+          <div id = "<%=districtid%>_value">
+            <%= value %>
+          </div>
+            <small><%= unit %></small></h3>
       </div>
       <div class="card-footer">
         <div class="stats">

@@ -50,6 +50,8 @@ function SimShipment(products) {
     "items",
     `${JSON.stringify(package.items)}`
   );
+  redisClient.publish("update","", () => {
+    console.log("message to io");})
   redisClient.publish("shipped", package.serial_number.toString(), () => {
     console.log("publish");
   });
@@ -66,10 +68,6 @@ server.listen(6062, function () {
 });
 
 
-
-
-
-
 function setIntervalX(callback, delay, repetitions) {
   var x = 0;
   var intervalID = setInterval(function () {
@@ -81,11 +79,10 @@ function setIntervalX(callback, delay, repetitions) {
   }, delay);
 }
 
-
 setIntervalX(
   function () {
     SimShipment();
   },
-  5000,
-  4
+  1500,
+  100
 )
