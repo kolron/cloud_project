@@ -1,4 +1,5 @@
 
+const { Console } = require('console')
 const redis = require('redis')
 const util = require('util')
 const redisClient = redis.createClient()
@@ -21,19 +22,46 @@ redisClient.hget = util.promisify(redisClient.hget)
     return data
 }
 async function getPriceData(){
-  var data = {
-      prices: [
-        {districtid:"north", title: "צפון", value: await redisClient.hget('north','TOTA_PRICE')},  
-        {districtid:"haifa", title: "חיפה", value: await redisClient.hget('haifa','TOTA_PRICE')},
-        {districtid:"central", title: "מרכז", value: await redisClient.hget('central','TOTA_PRICE')},
-        {districtid:"tel aviv", title: "תל אביב", value: await redisClient.hget('tel aviv','TOTA_PRICE')},
-        {districtid:"jerusalem", title: "ירושלים", value: await redisClient.hget('jerusalem','TOTA_PRICE')},
-        {districtid:"samaria", title: "יהודה ושומרון", value: await redisClient.hget('samaria','TOTA_PRICE')},
-        {districtid:"south", title: "דרום", value: await redisClient.hget('south','TOTA_PRICE')}
-        
-      ]
-    }
+  var prices = [];
+  var priceInfo = [
+    {districtid:"north", title: "צפון", value: await redisClient.hget('north','TOTAL_PRICE')},  
+    {districtid:"haifa", title: "חיפה", value: await redisClient.hget('haifa','TOTAL_PRICE')},
+    {districtid:"central", title: "מרכז", value: await redisClient.hget('central','TOTAL_PRICE')},
+    {districtid:"tel aviv", title: "תל אביב", value: await redisClient.hget('tel aviv','TOTAL_PRICE')},
+    {districtid:"jerusalem", title: "ירושלים", value: await redisClient.hget('jerusalem','TOTAL_PRICE')},
+    {districtid:"samaria", title: "יהודה ושומרון", value: await redisClient.hget('samaria','TOTAL_PRICE')},
+    {districtid:"south", title: "דרום", value: await redisClient.hget('south','TOTAL_PRICE')}
+
+  ]
+  
+  priceInfo.forEach(obj => {
+    var value = obj.value
+    prices.push((value != null) ? value : 0 )
+  });  
+
+  var data = { price:prices }
   return data
 }
+// async function getTaxData(){
+//   var prices = [];
+//   var priceInfo = [
+//     {districtid:"north", title: "צפון", value: await redisClient.hget('north','TOTAL_PRICE')},  
+//     {districtid:"haifa", title: "חיפה", value: await redisClient.hget('haifa','TOTAL_PRICE')},
+//     {districtid:"central", title: "מרכז", value: await redisClient.hget('central','TOTAL_PRICE')},
+//     {districtid:"tel aviv", title: "תל אביב", value: await redisClient.hget('tel aviv','TOTAL_PRICE')},
+//     {districtid:"jerusalem", title: "ירושלים", value: await redisClient.hget('jerusalem','TOTAL_PRICE')},
+//     {districtid:"samaria", title: "יהודה ושומרון", value: await redisClient.hget('samaria','TOTAL_PRICE')},
+//     {districtid:"south", title: "דרום", value: await redisClient.hget('south','TOTAL_PRICE')}
+
+//   ]
+  
+//   priceInfo.forEach(obj => {
+//     var value = obj.value
+//     prices.push((value != null) ? value : 0 )
+//   });  
+
+//   var data = { price:prices }
+//   return data
+// }
 
 module.exports = {getCardData,getPriceData}

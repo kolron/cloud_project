@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+  </head>
+  <body>
+    <div class="chart-container" style="position: relative; height:400px; width: 400px;">
+    <canvas id="barChart" width="20" height="20" style="position: absolute; left: 0;"></canvas> 
+    <canvas id="pieChart" width="20" height="20" style="position: absolute; left: 505px;"></canvas>
+    <!--<canvas id="pieChart" width="0.1" height="0.1"></canvas>-->
+    <script>
+      //   var chart;
+      var bar_ctx = document.getElementById("barChart").getContext("2d");
+      var barChart = new Chart(bar_ctx, {
+        type: "bar",
+        data: {
+          labels: [
+          "צפון",
+            "חיפה",
+            "תל אביב",
+            "מרכז",
+            "ירושלים",
+            "יהודה ושומרון",
+            "דרום",
+          ],
+          datasets: [
+            {
+              label: "Total Price per district",
+              data: [0, 0, 0, 0, 0, 0, 0],
+              backgroundColor: [
+                "rgb(202,239,173)",
+                "rgb(159,244,223)",
+                "rgb(209,86,35)",
+                "rgb(239,239,173)",
+                "rgb(129,129,0)",
+                "rgb(0,62,62)",
+                "rgb(91,159,185)",
+              ],
+              borderColor: ["rgb(255, 255, 255)"],
+              borderWidth: 0,
+            },
+          ],
+        },
+        options: {
+          plugins: {
+            legend: {
+              display: false,
+            },
+            title: {
+              display: true,
+              text: "Price Per District",
+            },
+          },
+        },
+      });
+      
+      var pie_ctx = document.getElementById("pieChart").getContext("2d");
+      var pieChart = new Chart(pie_ctx, {
+        type: "pie",
+        data: {
+          labels: [
+            "צפון",
+            "חיפה",
+            "תל אביב",
+            "מרכז",
+            "ירושלים",
+            "יהודה ושומרון",
+            "דרום",
+          ],
+          datasets: [
+            {
+              label: "Total Price per district",
+              data: [1, 10, 19, 20, 4, 9, 3],
+              backgroundColor: [
+                "rgb(202,239,173)",
+                "rgb(159,244,223)",
+                "rgb(209,86,35)",
+                "rgb(239,239,173)",
+                "rgb(129,129,0)",
+                "rgb(0,62,62)",
+                "rgb(91,159,185)",
+              ],
+              borderColor: ["rgb(255, 255, 255)"],
+              borderWidth: 0,
+            },
+          ],
+        },
+        options: {
+            
+          plugins: {
+            legend: {
+              display: false,
+            },
+            title: {
+              display: true,
+              text: "Price Per District",
+            },
+          },
+        },
+      });
+
+      //this will be called using socket.on("barUpdate"){..}
+      const updateChart = (chart, data) => {
+        chart.data.datasets[0].data = data;
+        chart.update();
+      };
+    </script>
+    </div>
+  </body>
+</html>

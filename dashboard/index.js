@@ -9,7 +9,7 @@ const findPackage = require('./routers/findPackage')
 const map = require('./routers/map');
 const redis = require('redis')
 const sub = redis.createClient()
-const {getCardData} = require('./routers/data')
+const {getCardData, getPriceData} = require('./routers/data')
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
 app.use('/dashboard',dashboard)
@@ -29,9 +29,12 @@ io.on('connection',(socket)=>{
 sub.on('message',async(channel,data)=>{
   if(channel =='update'){
   console.log('io recieved update')
-  var result = await getCardData()
-  console.log(data)
-  io.emit('update',result)
+  var card_result = await getCardData()
+  io.emit('update card',card_result)
+  
+  var price_result = (await getPriceData()).price
+  console.log(price_result)
+  io.emit('update barchart',price_result)
   }
 })
 app.get('/', (req, res) => {

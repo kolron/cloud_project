@@ -1,23 +1,13 @@
 
 const express =require('express')
 const router = express.Router()
-const redis = require('redis')
-const { io } = require('socket.io')
-const util = require('util')
-const redisClient = redis.createClient()
-const sub = redis.createClient()
-
-
-  
-
-
-
-redisClient.get = util.promisify(redisClient.get)
-redisClient.hget = util.promisify(redisClient.hget)
 var datafile = require('./data')
 
 router.get('/', async (req, res) => {
-  var data = await datafile.getData()
+  var data = {
+    card_data : await datafile.getCardData(),
+    price_data: (await datafile.getPriceData()).price
+  }
   res.render("pages/dashboard", data)
 })
 

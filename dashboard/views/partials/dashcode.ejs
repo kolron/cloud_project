@@ -255,12 +255,16 @@
 <script>
   var socket = io.connect()
   
-  socket.on('update',(data) =>{ 
+  socket.on('update card',(data) =>{ 
     console.log("test")
      data.cards.forEach(function(card){ 
        var districtid = card.districtid;
        document.getElementById(`${districtid}_value`).innerHTML=card.value;
      })
+  })
+  socket.on('update barchart',(chartdata) =>{ 
+    
+    updateChart(barChart,chartdata)
   })
 
 </script>

@@ -66,6 +66,9 @@ sub.on("message", (channel, data) => {
           db.close();
         });
       });
+      if (object == null ){
+        console.log(data,object)
+      }
       redisClient.hincrby(object.district, "ON_ROUTE", -1, (err, reply) => {
         console.log(reply);
       });
@@ -78,9 +81,9 @@ sub.on("message", (channel, data) => {
       redisClient.incrby("ARRIVED", 1, (err, reply) => {
         console.log(reply);
       });
+      redisClient.del(data,(err,reply)=>{
+        console.log(reply)})
     });
-    redisClient.del(data,(err,reply)=>{
-    console.log(reply)})
   }
 });
 

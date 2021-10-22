@@ -45,6 +45,7 @@ The above copyright notice and this permission notice shall be included in all c
       background-size: cover;
     }
     </style>
+     
   <%- include ('../partials/sidebar'); %>
     <div class="main-panel">
       <%- include("../partials/navbar") %>
@@ -52,12 +53,11 @@ The above copyright notice and this permission notice shall be included in all c
         <div class="container-fluid">
           <div class="row">
             <div class="col-md-9">
-              
-
+              <%- include("../partials/chart") %>
             </div>
             <div class="col-md-3">
               <div class="row">
-                <% cards.forEach(function(card){ %>
+                <% card_data.cards.forEach(function(card){ %>
                 <%- include ('../partials/card',card))}; %>
               </div>          
             </div>

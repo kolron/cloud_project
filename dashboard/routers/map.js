@@ -6,7 +6,7 @@ var datafile = require('./data')
 
 
 router.get('/', async (req, res) => {
-  var pack_data = await datafile.getData()
+  var pack_data = await datafile.getCardData()
   var data = {
     card1: [
      pack_data.cards[2]

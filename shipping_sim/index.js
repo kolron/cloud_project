@@ -85,6 +85,6 @@ setIntervalX(
   function () {
     SimShipment();
   },
-  1000,
-  100
+  3000,
+  20
 )
