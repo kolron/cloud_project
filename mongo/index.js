@@ -26,6 +26,7 @@ const url =
           db.close();
         });
       });
+      var bigml = await data2bigml.add2data(object)
       redisClient.hincrby(object.district, "TOTAL_PRICE", object.price, (err, reply) => {
         console.log(object.price)
         console.log(reply);
@@ -65,7 +66,9 @@ sub.on("message", (channel, data) => {
           console.log("updated document");
           db.close();
         });
+        
       });
+      var bigml = await data2bigml.add2data(object)
       if (object == null ){
         console.log(data,object)
       }

@@ -9,4 +9,4 @@ model = api.create_model(dataset)
 print("3")
 prediction = api.create_prediction(model, \
     {"petal width": 1.75, "petal length": 2.45})
-    
+api.pprint(prediction)
