@@ -86,5 +86,5 @@ setIntervalX(
     SimShipment();
   },
   3000,
-  1
+  10
 )

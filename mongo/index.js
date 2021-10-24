@@ -66,8 +66,9 @@ sub.on("message", (channel, data) => {
           console.log("updated document");
           db.close();
         });
-        
       });
+      redisClient.publish("update","", () => {
+        console.log("message to io");})
       if (object == null ){
         console.log(data,object)
       }
