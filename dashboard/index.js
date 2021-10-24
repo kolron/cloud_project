@@ -9,7 +9,7 @@ const findPackage = require('./routers/findPackage')
 const map = require('./routers/map');
 const redis = require('redis')
 const sub = redis.createClient()
-const {getCardData, getPriceData} = require('./routers/data')
+const {getCardData, getPriceData,getTaxData} = require('./routers/data')
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
 app.use('/dashboard',dashboard)
@@ -36,6 +36,9 @@ sub.on('message',async(channel,data)=>{
   console.log(price_result)
   io.emit('update barchart',price_result)
   }
+  var tax_result = (await getTaxData()).tax
+  console.log(tax_result)
+  io.emit('update piechart',tax_result)
 })
 app.get('/', (req, res) => {
   res.render("pages/home")

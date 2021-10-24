@@ -129,11 +129,11 @@ function shuffle(array) {
       price += items[i].price;
     }
     if (price < 50) {
-      tax_status = "Free";
+      tax_status = 0;
     } else if (price > 50 && price < 75) {
-      tax_status = "10%";
+      tax_status = 10;
     } else {
-      tax_status = "25%";
+      tax_status = 25;
     }
     return { price: price, tax_status: tax_status };
   }

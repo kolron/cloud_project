@@ -52,8 +52,6 @@ function SimShipment(products) {
     "items",
     `${JSON.stringify(package.items)}`
   );
-  redisClient.publish("update","", () => {
-    console.log("message to io");})
   redisClient.publish("shipped", package.serial_number.toString(), () => {
     console.log("publish");
   });

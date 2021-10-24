@@ -263,8 +263,10 @@
      })
   })
   socket.on('update barchart',(chartdata) =>{ 
-    
     updateChart(barChart,chartdata)
+  })
+  socket.on('update piechart',(chartdata) =>{ 
+    updateChart(pieChart,chartdata)
   })
 
 </script>

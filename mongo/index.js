@@ -10,12 +10,12 @@ const { MongoClient } = require("mongodb");
 const url =
   "mongodb+srv://ron:ron@cluster0.x3cfx.mongodb.net/test?retryWrites=true&w=majority";
 
-const {add2data} = require('./data2bigml')
+const { add2data } = require("./data2bigml");
 
-  sub.on("message", (channel, data) => {
+sub.on("message", (channel, data) => {
   if (channel == "shipped") {
     redisClient.hgetall(data, (err, object) => {
-      console.log(object)
+      console.log(object);
       MongoClient.connect(url, function (err, db) {
         if (err) throw err;
         console.log("connected to mongo!");
@@ -26,11 +26,25 @@ const {add2data} = require('./data2bigml')
           db.close();
         });
       });
-      var bigml =  add2data(object)
-      redisClient.hincrby(object.district, "TOTAL_PRICE", object.price, (err, reply) => {
-        console.log(object.price)
-        console.log(reply);
-      });
+      var bigml = add2data(object);
+      redisClient.hincrby(
+        object.district,
+        "TOTAL_PRICE",
+        object.price,
+        (err, reply) => {
+          console.log(object.price);
+          console.log(reply);
+        }
+      );
+      redisClient.hincrby(
+        object.district,
+        "TOTAL_TAX",
+        object.tax_status,
+        (err, reply) => {
+          console.log(object.price);
+          console.log(reply);
+        }
+      );
       redisClient.hincrby(object.district, "TOTAL", 1, (err, reply) => {
         console.log(reply);
       });
@@ -45,12 +59,11 @@ const {add2data} = require('./data2bigml')
       redisClient.incrby("ON_ROUTE", 1, (err, reply) => {
         console.log(reply);
       });
-});
+    });
+    redisClient.publish("update","", () => {
+      console.log("message to io");})
   }
-  })
-
-
-
+});
 
 sub.on("message", (channel, data) => {
   if (channel == "arrival") {
@@ -59,19 +72,14 @@ sub.on("message", (channel, data) => {
         if (err) throw err;
         console.log("connected to mongo!");
         var dbo = db.db("project");
-        var query = {serial_number: object.serial_number}
-        var newval = {$set: {status : "arrived"}}
-        dbo.collection("packages").updateOne(query, newval ,(ers, res) => {
+        var query = { serial_number: object.serial_number };
+        var newval = { $set: { status: "arrived" } };
+        dbo.collection("packages").updateOne(query, newval, (ers, res) => {
           if (err) throw err;
           console.log("updated document");
           db.close();
         });
       });
-      redisClient.publish("update","", () => {
-        console.log("message to io");})
-      if (object == null ){
-        console.log(data,object)
-      }
       redisClient.hincrby(object.district, "ON_ROUTE", -1, (err, reply) => {
         console.log(reply);
       });
@@ -84,8 +92,12 @@ sub.on("message", (channel, data) => {
       redisClient.incrby("ARRIVED", 1, (err, reply) => {
         console.log(reply);
       });
-      redisClient.del(data,(err,reply)=>{
-        console.log(reply)})
+      redisClient.del(data, (err, reply) => {
+        console.log(reply);
+      });
+    });
+    redisClient.publish("update", "", () => {
+      console.log("message to io");
     });
   }
 });
