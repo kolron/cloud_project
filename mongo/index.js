@@ -10,11 +10,11 @@ const { MongoClient } = require("mongodb");
 const url =
   "mongodb+srv://ron:ron@cluster0.x3cfx.mongodb.net/test?retryWrites=true&w=majority";
 
-const { add2data } = require("./data2bigml");
+const { add2data, parseItems } = require("./data2bigml2");
 
 sub.on("message", (channel, data) => {
   if (channel == "shipped") {
-    redisClient.hgetall(data, (err, object) => {
+    redisClient.hgetall(data, async (err, object) => {
       console.log(object);
       MongoClient.connect(url, function (err, db) {
         if (err) throw err;
@@ -26,7 +26,8 @@ sub.on("message", (channel, data) => {
           db.close();
         });
       });
-      var bigml = add2data(object);
+      var parsed = await parseItems(object.serial_number)
+      var bigml = add2data(parsed);
       redisClient.hincrby(
         object.district,
         "TOTAL_PRICE",

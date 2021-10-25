@@ -39,18 +39,16 @@ function shuffle(array) {
       list = products;
     }
     let shuffled = shuffle(list);
-    var selected = shuffled.slice(0, Math.floor(Math.random() * 3 + 1));
+    var selected = shuffled.slice(0, Math.floor(Math.random() * 4 + 1));
     var size;
-    switch (selected.length) {
-      case 1:
+    if (selected.length<=2) {
         size = "Small";
-        break;
-      case 2:
+    }
+    else if(selected.length == 3){
         size = "Medium";
-        break;
-      case 3:
+    } else{
         size = "Large";
-        break;
+
     }
     return { items: selected, size: size };
   }
