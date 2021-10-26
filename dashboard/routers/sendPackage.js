@@ -5,6 +5,7 @@ const functions = require('../../shipping_sim/functions')
 const redis = require('redis')
 const {generate} = require('../../shipping_sim/qrGenerator')
 
+
 function sendPackage(package){
   const result = generate(package,package.serial_number)
   const redisClient = redis.createClient();

@@ -76,4 +76,29 @@ async function getTaxData(){
   return data
 }
 
-module.exports = {getCardData,getPriceData,getTaxData}
+
+async function getSizeData(districtid){
+  var sizes = [];
+  var sizeInfo = [
+    {districtnum:0 ,districtid:"north", title: "צפון"},  
+    {districtnum:1 ,districtid:"haifa", title: "חיפה"},
+    {districtnum:2 ,districtid:"central", title: "מרכז"},
+    {districtnum:3 ,districtid:"tel aviv", title: "תל אביב"},
+    {districtnum:4 ,districtid:"jerusalem", title: "ירושלים"},
+    {districtnum:5 ,districtid:"samaria", title: "יהודה ושומרון"},
+    {districtnum:6 ,districtid:"south", title: "דרום"}
+  ]
+  
+  for(const obj of sizeInfo){
+    if(obj.districtid == districtid){
+    var total_small= await redisClient.hget(`${obj.districtid}`,'TOTAL_SMALL')
+    var total_medium= await redisClient.hget(`${obj.districtid}`,'TOTAL_MEDIUM')
+    var total_large= await redisClient.hget(`${obj.districtid}`,'TOTAL_LARGE')
+    sizes.push(total_small,total_medium,total_large)
+  }
+  }
+  var data = { size:sizes }
+  return data
+}
+
+module.exports = {getCardData,getPriceData,getTaxData,getSizeData}
