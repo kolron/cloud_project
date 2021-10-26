@@ -46,6 +46,9 @@ sub.on("message", (channel, data) => {
           console.log(reply);
         }
       );
+      redisClient.hincrby(object.district, `total_${(object.size).toUpperCase()}`, 1, (err, reply) => {
+        console.log(reply);
+      });
       redisClient.hincrby(object.district, "TOTAL", 1, (err, reply) => {
         console.log(reply);
       });
