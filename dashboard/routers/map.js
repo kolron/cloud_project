@@ -15,15 +15,15 @@ router.get('/', async (req, res) => {
       pack_data.cards[1]
     ],
     card3: [
-      pack_data.cards[0]
+      pack_data.cards[5]
     ],
     card4: [
      pack_data.cards[3],
-     pack_data.cards[4]
+     pack_data.cards[0]
     ],
     card5: [
-      pack_data.cards[5],
-     pack_data.cards[6]
+      pack_data.cards[6],
+     pack_data.cards[7]
     ]}
   
   res.render("pages/map", data)

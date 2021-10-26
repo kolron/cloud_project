@@ -450,3 +450,13 @@ batteries;laptop;type-C cable;shoes
 
 
 
+laptop
+mouse;earphones
+type-C cable;phone_case;earphones;shoes
+pillow;shoes
+laptop
+mug;backpack;pillow
+type-C cable
+mouse;keyboard;shoes;backpack
+phone_case;laptop;backpack
+phone_case;type-C cable;mouse;laptop

@@ -40,7 +40,7 @@
           <%- include("../partials/navbar") %>
             <div class="content">
                 <div class="container-fluid">
-                    <div class="row">
+                     <div class="row">
                         <% if(load_button){ %>
                     <form method="GET" , action="http://localhost:3000/bigml/itemsets">
                     
@@ -48,18 +48,37 @@
                         <input id="button"   type="submit" value = "Generate Item Sets"/>
                         </br>   
                         </form>
-                        <% } else { %>.
-                            <h1>Itemset:</h1>
-                            <h4><%= item_sets %></h4>
-                            <% } %> 
-                    </div>
-
-                
-
+                        
+                        <% } else { %>
+                          <div class="card ">
+                            <div class="card-body table-responsive findpackage-card">
+                              <h1>Itemset:</h1>
+                                <table class="table table-hover">          
+                                      
+                                  <thead class="text-warning">
+                                    <th>Items</th>
+                                    <th>Compliments</th>
+                                    <th>Supports</th>
+                                    <th>Confidences</th>
+                                  </thead>
+                                  <tbody>
+                                    <% for(let i=0; i<count; i++) { %>
+                                        <tr>
+                                          <td><%= items[i] %></td>
+                                          <td><%= compliments[i] %></td>
+                                          <td><%= supports[i] %></td>
+                                          <td><%= confidences[i] %></td>
+                                        </tr>
+                                      <%}%>    
+                                  </tbody>
+                                </table>
+                                <% } %> 
+                            </div>
+                          </div>  
+                    </div> 
                 
                 </div>
             </div>
-            <%- include("../partials/footer") %>
             <%- include("../partials/dashcode") %>
         </div>
     </div>

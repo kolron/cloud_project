@@ -64,7 +64,9 @@ router.get("/locate", async (req, res) => {
 
     var package_top_start = package_info.indexOf('serial_number":')
     var package_top_end = package_info.indexOf('items":')
-    var package_top = package_info.substring(package_top_start - 2, package_top_end -2 )
+    var package_top2 = package_info.substring(package_top_start - 3, package_top_end -2 )
+    var package_top1 = package_top2.replace(/\"/g, "");
+    var package_top = package_top1.replace(/,/g, "");
 
     var package_items_start = package_info.indexOf('[')
     var package_items_end = package_info.indexOf(']')
