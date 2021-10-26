@@ -3,21 +3,21 @@ connection = new bigml.BigML(
   "kolskyron",
   "275ca144362abdd066a28fe126fb2f545fd5bca9"
 );
-let rules = []
-function bigML(){
+
+function generateItemSets(){
+return new Promise(async (resolve,reject) => {
 var source = new bigml.Source(connection);
-  source.create('data/test.csv', function(error, sourceInfo) {
+  source.create('../bigml/data/test.csv', (error, sourceInfo) => {
     if (!error && sourceInfo) {
       var dataset = new bigml.Dataset(connection);
-      dataset.create(sourceInfo, function(error, datasetInfo) {
+      dataset.create(sourceInfo, (error, datasetInfo) => {
         if (!error && datasetInfo) {
-          var model = new bigml.Model(connection);
           var association = new bigml.Association(connection);
-          association.create(datasetInfo, function (error, modelInfo) {
-            console.log(modelInfo)
+          association.create(datasetInfo,async (error, modelInfo) => {
             if (!error && modelInfo) {
-              console.log(modelInfo)
-                rules = getRules(modelInfo.resource)
+              var rules = await getRules(modelInfo.resource)
+              resolve(rules)
+              
             }
             else{
               console.log("problem")
@@ -27,16 +27,18 @@ var source = new bigml.Source(connection);
       });
     }
   });
+})
 }
 
 
-function getRules(associationId){
+ function getRules(associationId){
+  return new Promise(async (resolve,reject) => {
   let rules = [];       
   var association = new bigml.Association(connection)
  
   association.get(associationId, true,
                   'only_model=true;limit=-1',
-                 function (error, resource) {
+                 async (error, resource)=> {
           if (!error && resource) {
               try{
           var localAssociation = new bigml.LocalAssociation(resource);
@@ -47,34 +49,29 @@ function getRules(associationId){
           localAssociation.items.forEach((item)=>{
               itemsMap[item.index]=item.name;
           })
-          console.log("asos")
-          
-          
           localAssociation.getRules().forEach((rule)=>{
               let lhs = rule.lhs;
-              let leftSide="";
+              let items="";
               lhs.forEach((index)=>{
-                  leftSide+=itemsMap[index]+","
+                  items+=itemsMap[index]+","
               })
   
               let rhs = rule.rhs;
-              let rightSide="";
+              let compliment="";
               rhs.forEach((index)=>{
-                  rightSide+=itemsMap[index]+","
+                compliment+=itemsMap[index]+","
               })
   
-              let conf = rule.confidence;
+              let confidence = rule.confidence;
               let support = rule.support;
-              let lift = rule.lift;
-              rules.push({leftSide: leftSide, rightSide: rightSide,support: support,confidence: conf, lift:lift})
+              rules.push({items: items, compliment: compliment,support: support,confidence: confidence})
           })
-          console.log("done with rules")
-          console.log(rules);
+          var final = rules 
+          resolve(final)
           }
-         
-      })
-      console.log('here')      
-      return rules;                           
-  }
-bigML()
+      })                  
+  })
+}
 
+
+module.exports = { generateItemSets }

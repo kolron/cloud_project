@@ -6,6 +6,7 @@ const io = require('socket.io')(server)
 const dashboard = require('./routers/dashboard')
 const sendPackage = require('./routers/sendPackage')
 const findPackage = require('./routers/findPackage')
+const bigml = require('./routers/bigml')
 const map = require('./routers/map');
 const redis = require('redis')
 const sub = redis.createClient()
@@ -17,6 +18,7 @@ app.use('/sendPackage',sendPackage)
 app.use('/findPackage',findPackage)
 app.use('/map',map)
 sub.subscribe('update')
+app.use('/bigml',bigml)
 
 server.listen(port,()=>{
   console.log(`Server running on port ${port}`)
