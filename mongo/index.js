@@ -49,15 +49,15 @@ sub.on("message", (channel, data) => {
       redisClient.hincrby(object.district, "TOTAL", 1, (err, reply) => {
         console.log(reply);
       });
-      redisClient.incrby("TOTAL", 1, (err, reply) => {
+      
+      redisClient.hincrby("TOTAL", "TOTAL", 1, (err, reply) => {
         console.log(reply);
       });
-
       redisClient.hincrby(object.district, "ON_ROUTE", 1, (err, reply) => {
         console.log(reply);
       });
 
-      redisClient.incrby("ON_ROUTE", 1, (err, reply) => {
+      redisClient.hincrby("TOTAL", "ON_ROUTE", 1, (err, reply) => {
         console.log(reply);
       });
     });
@@ -84,7 +84,10 @@ sub.on("message", (channel, data) => {
       redisClient.hincrby(object.district, "ON_ROUTE", -1, (err, reply) => {
         console.log(reply);
       });
-      redisClient.decrby("ON_ROUTE", 1, (err, reply) => {
+      redisClient.hincrby("TOTAL", "ON_ROUTE", -1, (err, reply) => {
+        console.log(reply);
+      });
+      redisClient.hincrby("TOTAL", "ARRIVED", 1, (err, reply) => {
         console.log(reply);
       });
       redisClient.hincrby(object.district, "ARRIVED", 1, (err, reply) => {

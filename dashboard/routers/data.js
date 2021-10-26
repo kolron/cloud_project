@@ -10,13 +10,16 @@ redisClient.hget = util.promisify(redisClient.hget)
  async function getCardData(){
     var data = {
         cards: [
+          
+          {districtid:"tel aviv", title: "תל אביב", value: `${await redisClient.hget('tel aviv','ARRIVED')}/${await redisClient.hget('tel aviv','TOTAL')} `, unit: " חבילות"},
           {districtid:"north", title: "צפון", value: `${await redisClient.hget('north','ARRIVED')}/${await redisClient.hget('north','TOTAL')} `, unit: " חבילות"},  
           {districtid:"haifa", title: "חיפה", value: `${await redisClient.hget('haifa','ARRIVED')}/${await redisClient.hget('haifa','TOTAL')} `, unit: " חבילות"},
           {districtid:"central", title: "מרכז", value: `${await redisClient.hget('central','ARRIVED')}/${await redisClient.hget('central','TOTAL')} `, unit: " חבילות" },
-          {districtid:"tel aviv", title: "תל אביב", value: `${await redisClient.hget('tel aviv','ARRIVED')}/${await redisClient.hget('tel aviv','TOTAL')} `, unit: " חבילות"},
+          {districtid:"total", title: "כללי", value: `${await redisClient.hget('TOTAL','ARRIVED')}/${await redisClient.hget('TOTAL','TOTAL')} `, unit: " חבילות"},
           {districtid:"jerusalem", title: "ירושלים", value: `${await redisClient.hget('jerusalem','ARRIVED')}/${await redisClient.hget('jerusalem','TOTAL')} `, unit: " חבילות"},
           {districtid:"samaria", title: "יהודה ושומרון", value: `${await redisClient.hget('samaria','ARRIVED')}/${await redisClient.hget('samaria','TOTAL')} `, unit: " חבילות"},
-          {districtid:"south", title: "דרום", value: `${await redisClient.hget('south','ARRIVED')}/${await redisClient.hget('south','TOTAL')} `, unit: " חבילות"} 
+          {districtid:"south", title: "דרום", value: `${await redisClient.hget('south','ARRIVED')}/${await redisClient.hget('south','TOTAL')} `, unit: " חבילות"}
+          
         ]
       }
       data.cards.forEach(card => {
@@ -75,5 +78,41 @@ async function getTaxData(){
   var data = { tax:average_tax }
   return data
 }
+async function getDashData1(){
+  var data = {
+      cards: [
+        {districtid:"total", title: "כללי", value: `${await redisClient.hget('TOTAL','ARRIVED')}/${await redisClient.hget('TOTAL','TOTAL')} `, unit: " חבילות"},  
+        {districtid:"north", title: "צפון", value: `${await redisClient.hget('north','ARRIVED')}/${await redisClient.hget('north','TOTAL')} `, unit: " חבילות"},  
+        {districtid:"haifa", title: "חיפה", value: `${await redisClient.hget('haifa','ARRIVED')}/${await redisClient.hget('haifa','TOTAL')} `, unit: " חבילות"},
+        {districtid:"central", title: "מרכז", value: `${await redisClient.hget('central','ARRIVED')}/${await redisClient.hget('central','TOTAL')} `, unit: " חבילות" }
+      ]
+    }
+    data.cards.forEach(card => {
+      if(card.value.includes('null')){
+        var new_value = card.value.replace(/null/g, '0')
+        card.value = new_value
+      }
+    })
+    console.log(data)
+  return data
+}
+async function getDashData2(){
+  var data = {
+      cards: [
+        {districtid:"tel aviv", title: "תל אביב", value: `${await redisClient.hget('tel aviv','ARRIVED')}/${await redisClient.hget('tel aviv','TOTAL')} `, unit: " חבילות"},
+        {districtid:"jerusalem", title: "ירושלים", value: `${await redisClient.hget('jerusalem','ARRIVED')}/${await redisClient.hget('jerusalem','TOTAL')} `, unit: " חבילות"},
+        {districtid:"samaria", title: "יהודה ושומרון", value: `${await redisClient.hget('samaria','ARRIVED')}/${await redisClient.hget('samaria','TOTAL')} `, unit: " חבילות"},
+        {districtid:"south", title: "דרום", value: `${await redisClient.hget('south','ARRIVED')}/${await redisClient.hget('south','TOTAL')} `, unit: " חבילות"} 
+      ]
+    }
+    data.cards.forEach(card => {
+      if(card.value.includes('null')){
+        var new_value = card.value.replace(/null/g, '0')
+        card.value = new_value
+      }
+    })
+    console.log(data)
+  return data
+}
 
-module.exports = {getCardData,getPriceData,getTaxData}
+module.exports = {getCardData,getPriceData,getTaxData,getDashData1,getDashData2}
