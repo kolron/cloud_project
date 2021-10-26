@@ -52,12 +52,18 @@ The above copyright notice and this permission notice shall be included in all c
       <div class="content">
         <div class="container-fluid">
           <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-6">
               <%- include("../partials/chart") %>
             </div>
             <div class="col-md-3">
               <div class="row">
-                <% card_data.cards.forEach(function(card){ %>
+                <% card1.forEach(function(card){ %>
+                <%- include ('../partials/card',card))}; %>
+              </div>          
+            </div>
+            <div class="col-md-3">
+              <div class="row">
+                <% card2.forEach(function(card){ %>
                 <%- include ('../partials/card',card))}; %>
               </div>          
             </div>
